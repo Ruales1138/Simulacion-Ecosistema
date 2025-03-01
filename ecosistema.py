@@ -42,20 +42,25 @@ print('-----------------------------------Ciclo')
 
 
 def buscar_presa(ecosistema, fila, columna, paso=1):
-    if fila + paso == len(ecosistema) or columna + paso == len(ecosistema):
-        return
-    if isinstance(ecosistema[fila][columna + paso], Presa):
-        print(fila, columna + paso)
-        return (fila, columna + paso)
-    if isinstance(ecosistema[fila + paso][columna], Presa):
-        print(fila + paso, columna)
+    if paso >= len(ecosistema):
+        return None
+    if fila + paso < len(ecosistema) and isinstance(ecosistema[fila + paso][columna], Presa):
         return (fila + paso, columna)
-    return buscar_presa(ecosistema, fila, columna, paso+1)
+    if fila - paso < len(ecosistema) and isinstance(ecosistema[fila - paso][columna], Presa):
+        return (fila - paso, columna) 
+    if columna + paso < len(ecosistema) and isinstance(ecosistema[fila][columna + paso], Presa):
+        return (fila, columna + paso)
+    if columna - paso < len(ecosistema) and isinstance(ecosistema[fila - paso][columna], Presa):
+        return (fila, columna - paso)
+    return buscar_presa(ecosistema, fila, columna, paso+1) 
 
 
 def mover_depredador(ecosistema, fila, columna):
     presa = buscar_presa(ecosistema, fila, columna)
-    ecosistema[fila][columna] = ''
+    if presa:
+        fila_p, columna_p = presa
+        ecosistema[fila_p][columna_p] = Depredador()
+        ecosistema[fila][columna] = ''
     return ecosistema
 
 
