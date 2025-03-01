@@ -41,8 +41,9 @@ print(*ecosistema, sep="\n")
 print('-----------------------------------Ciclo')
 
 
-def mover_depredador():
-    pass
+def mover_depredador(ecosistema, fila, columna):
+    ecosistema[fila][columna] = '   '
+    return ecosistema
 
 
 def actualizar_ecosistema(ecosistema: list[list[object]], elemento: type, fila: int = 0, columna: int = 0) -> tuple:
@@ -51,7 +52,9 @@ def actualizar_ecosistema(ecosistema: list[list[object]], elemento: type, fila: 
     if columna == len(ecosistema):
         return actualizar_ecosistema(ecosistema, elemento, fila+1, 0)
     if isinstance(ecosistema[fila][columna], elemento):
+        ecosistema = mover_depredador(ecosistema, fila, columna)
         print(fila, columna)
+        print(*ecosistema, sep="\n")
     return actualizar_ecosistema(ecosistema, elemento, fila, columna+1)
     
 print (actualizar_ecosistema(ecosistema, Depredador))
