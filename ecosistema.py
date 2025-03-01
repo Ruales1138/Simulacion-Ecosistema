@@ -5,21 +5,21 @@ class Depredador:
         self.energia: int = 5
     
     def __repr__(self):
-        return 'Depre'
+        return 'D '
     
 class Presa:
     def __init__(self):
         self.energia: int = 5
 
     def __repr__(self):
-        return 'Presa'
+        return 'P '
     
 class Planta:
     def __init__(self):
         self.energia: int = 5
 
     def __repr__(self):
-        return 'Plant'
+        return 'C '
     
 
 def generar_matriz(n: int, i: int = 0, j: int = 0, matriz: list[list[int]] = [], fila: list[int] = []) -> list[list[int]]:
@@ -31,7 +31,7 @@ def generar_matriz(n: int, i: int = 0, j: int = 0, matriz: list[list[int]] = [],
         return generar_matriz(n, i+1, 0, matriz, [])
     
     elemento = random.choice([Depredador(), Presa(), Planta()])
-    fila.append(random.choice([elemento, '   ']))
+    fila.append(random.choice([elemento, '']))
     return generar_matriz(n, i, j+1, matriz, fila)
 
 
@@ -41,8 +41,21 @@ print(*ecosistema, sep="\n")
 print('-----------------------------------Ciclo')
 
 
+def buscar_presa(ecosistema, fila, columna, paso=1):
+    if fila + paso == len(ecosistema) or columna + paso == len(ecosistema):
+        return
+    if isinstance(ecosistema[fila][columna + paso], Presa):
+        print(fila, columna + paso)
+        return (fila, columna + paso)
+    if isinstance(ecosistema[fila + paso][columna], Presa):
+        print(fila + paso, columna)
+        return (fila + paso, columna)
+    return buscar_presa(ecosistema, fila, columna, paso+1)
+
+
 def mover_depredador(ecosistema, fila, columna):
-    ecosistema[fila][columna] = '   '
+    presa = buscar_presa(ecosistema, fila, columna)
+    ecosistema[fila][columna] = ''
     return ecosistema
 
 
