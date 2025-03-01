@@ -1,109 +1,94 @@
 import random
 
 class Depredador:
-    def __init__(self, energia=5):
-        self.energia = energia
+    def __init__(self):
+        self.energia: int = 5
+        self.sin_comer = 0
     
     def __repr__(self):
-        return 'D'
+        return 'Depre'
     
 class Presa:
-    def __init__(self, energia=5):
-        self.energia = energia
-    
+    def __init__(self):
+        self.energia: int = 5
+
     def __repr__(self):
-        return 'P'
+        return 'Presa'
     
 class Planta:
     def __init__(self):
-        self.energia = 5
-    
-    def __repr__(self):
-        return 'V'
+        self.energia: int = 5
 
-def generar_matriz(n, i=0, matriz=None):
-    if matriz is None:
-        matriz = []
+    def __repr__(self):
+        return 'Plant'
+    
+
+def generar_matriz(n: int, i: int = 0, j: int = 0, matriz: list[list[int]] = [], fila: list[int] = []) -> list[list[int]]:
     if i == n:
         return matriz
-    fila = generar_fila(n)
-    return generar_matriz(n, i + 1, matriz + [fila])
-
-def generar_fila(n, j=0, fila=None):
-    if fila is None:
-        fila = []
+    
     if j == n:
-        return fila
-    elemento = random.choice([Depredador(), Presa(), Planta(), None])
-    return generar_fila(n, j + 1, fila + [elemento])
+        matriz.append(fila)
+        return generar_matriz(n, i+1, 0, matriz, [])
+    
+    elemento = random.choice([Depredador(), Presa(), Planta(), '   '])
+    fila.append(elemento)
+    return generar_matriz(n, i, j+1, matriz, fila)
 
-def imprimir_matriz(matriz, i=0):
-    if i == len(matriz):
-        return
-    print(' '.join(str(e) if e else '.' for e in matriz[i]))
-    imprimir_matriz(matriz, i + 1)
-
-def simular_ecosistema(matriz, ciclos, ciclo_actual=0):
-    if ciclo_actual == ciclos or not hay_organismos(matriz):
-        return matriz
-    matriz = actualizar_matriz(matriz)
-    imprimir_matriz(matriz)
-    print("-")
-    return simular_ecosistema(matriz, ciclos, ciclo_actual + 1)
-
-def hay_organismos(matriz, i=0, j=0):
-    if i == len(matriz):
-        return False
-    if j == len(matriz[i]):
-        return hay_organismos(matriz, i + 1, 0)
-    if isinstance(matriz[i][j], (Depredador, Presa)):
-        return True
-    return hay_organismos(matriz, i, j + 1)
-
-def actualizar_matriz(matriz, i=0):
-    if i == len(matriz):
-        return matriz
-    matriz[i] = actualizar_fila(matriz, i)
-    return actualizar_matriz(matriz, i + 1)
-
-def actualizar_fila(matriz, i, j=0, nueva_fila=None):
-    if nueva_fila is None:
-        nueva_fila = []
-    if j == len(matriz[i]):
-        return nueva_fila
-    elemento = matriz[i][j]
-    nuevo_elemento = procesar_elemento(elemento, matriz, i, j)
-    return actualizar_fila(matriz, i, j + 1, nueva_fila + [nuevo_elemento])
-
-def procesar_elemento(elemento, matriz, i, j):
-    if isinstance(elemento, Depredador):
-        return mover_depredador(elemento, matriz, i, j)
-    if isinstance(elemento, Presa):
-        return mover_presa(elemento, matriz, i, j)
-    return elemento
-
-def mover_depredador(dep, matriz, i, j):
-    presa_pos = buscar_presa(matriz, i, j)
-    if presa_pos:
-        matriz[presa_pos[0]][presa_pos[1]] = dep
+def buscar_presa(matriz, x, y, n, paso=1):
+    if paso >= n:
         return None
-    return dep
+    
+    # Buscar en la fila
+    if y + paso < n and isinstance(matriz[x][y + paso], Presa):
+        return (x, y + paso)
+    if y - paso >= 0 and isinstance(matriz[x][y - paso], Presa):
+        return (x, y - paso)
+    
+    # Buscar en la columna
+    if x + paso < n and isinstance(matriz[x + paso][y], Presa):
+        return (x + paso, y)
+    if x - paso >= 0 and isinstance(matriz[x - paso][y], Presa):
+        return (x - paso, y)
+    
+    return buscar_presa(matriz, x, y, n, paso + 1)
 
-def buscar_presa(matriz, i, j, d=1):
-    if d >= len(matriz):
-        return None
-    if j + d < len(matriz[i]) and isinstance(matriz[i][j + d], Presa):
-        return (i, j + d)
-    if j - d >= 0 and isinstance(matriz[i][j - d], Presa):
-        return (i, j - d)
-    return buscar_presa(matriz, i, j, d + 1)
+def mover_depredador(matriz, x, y, n):
+    presa = buscar_presa(matriz, x, y, n)
+    if presa:
+        px, py = presa
+        matriz[px][py] = Depredador()
+        matriz[x][y] = '   '
+    return matriz
 
-def mover_presa(presa, matriz, i, j):
-    return presa
+def mover_presa(matriz, x, y, n):
+    direcciones = [(x-1, y), (x+1, y), (x, y-1), (x, y+1)]
+    direcciones = [(nx, ny) for nx, ny in direcciones if 0 <= nx < n and 0 <= ny < n and matriz[nx][ny] == '   ']
+    if direcciones:
+        nx, ny = random.choice(direcciones)
+        matriz[nx][ny] = Presa()
+        matriz[x][y] = '   '
+    return matriz
 
-n = 5
-ciclos = 10
-ecosistema = generar_matriz(n)
-imprimir_matriz(ecosistema)
-print("Inicio de la simulación")
-simular_ecosistema(ecosistema, ciclos)
+def actualizar_ecosistema(matriz, n, i=0, j=0):
+    if i == n:
+        return matriz
+    if j == n:
+        return actualizar_ecosistema(matriz, n, i + 1, 0)
+    if isinstance(matriz[i][j], Depredador):
+        matriz = mover_depredador(matriz, i, j, n)
+    elif isinstance(matriz[i][j], Presa):
+        matriz = mover_presa(matriz, i, j, n)
+    return actualizar_ecosistema(matriz, n, i, j + 1)
+
+def ciclos(ecosistema: list[list[str]], idx: int = 0, limite: int = 5) -> None:
+    if idx == limite:
+        return 'Fin del ciclo'
+    else:
+        print(*ecosistema, sep="\n")
+        print('-----------------------------------')
+        ecosistema = actualizar_ecosistema(ecosistema, len(ecosistema))
+        return ciclos(ecosistema, idx+1)
+
+ecosistema = generar_matriz(5)
+print(ciclos(ecosistema))
