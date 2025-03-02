@@ -31,29 +31,42 @@ El ecosistema se representará en una matriz NxN, donde cada celda puede contene
 - La interacción entre organismos (caza, reproducción, muerte) debe resolverse de manera recursiva.
 - Los movimientos deben realizarse evaluando recursivamente las opciones disponibles.
 - La simulación termina cuando:
-- No quedan organismos vivos.
-- Se alcanza un número límite de ciclos.
+* No quedan organismos vivos.
+* Se alcanza un número límite de ciclos.
   
 # Restricciones Importantes
-Toda la lógica del programa debe implementarse con recursión. No se permiten estructuras iterativas (for, while).
-La simulación debe funcionar de manera determinista, garantizando que los organismos sigan reglas claras en cada ciclo.
-El código debe estar correctamente estructurado para facilitar su lectura y corrección.
-Evite comentar el código para la entrega. 
-Entrega y Evaluación
-Formato de Entrega
-Repositorio con el código fuente.
-Fecha de entrega: primera sesión de la semana 4 (24-26 de febrero)
-Criterios de Evaluación
+- Toda la lógica del programa debe implementarse con recursión. No se permiten estructuras iterativas (for, while).
+- La simulación debe funcionar de manera determinista, garantizando que los organismos sigan reglas claras en cada ciclo.
+- El código debe estar correctamente estructurado para facilitar su lectura y corrección.
+- Evite comentar el código para la entrega.
+  
+# Entrega y Evaluación
+# Formato de Entrega
+- Repositorio con el código fuente.
+- Fecha de entrega: primera sesión de la semana 4 (24-26 de febrero)
+  
+# Criterios de Evaluación
 La evaluación se dividirá en dos componentes principales:
-Implementación (40%)
-Correcto uso de recursión en todas las operaciones.
-Precisión y coherencia en la simulación del ecosistema.
-Calidad del código (organización y buenas prácticas).
-Sustentación Práctica (60%)
-Cada integrante deberá hacer cambios o adiciones sobre la entrega el día de la sustentación, demostrando dominio sobre la solución.
-Se realizará una sesión de preguntas donde cada estudiante responderá sobre su implementación.
-Nota: La sustentación es individual, por lo que cada integrante debe conocer a fondo la solución implementada.
-Recomendaciones
+
+1. Implementación (40%)
+- Correcto uso de recursión en todas las operaciones.
+- Precisión y coherencia en la simulación del ecosistema.
+- Calidad del código (organización y buenas prácticas).
+  
+2. Sustentación Práctica (60%)
+- Cada integrante deberá hacer cambios o adiciones sobre la entrega el día de la sustentación, demostrando dominio sobre la solución.
+- Se realizará una sesión de preguntas donde cada estudiante responderá sobre su implementación.
+  
+# Nota: 
+La sustentación es individual, por lo que cada integrante debe conocer a fondo la solución implementada.
+
+# Recomendaciones
+- Planificar la recursión antes de implementarla, identificando los casos base y la división del problema.
+- Comenzar con una versión básica y luego agregar complejidad gradualmente.
+- Probar cada función recursiva de forma aislada antes de integrarla en el sistema completo.
+- Utilizar depuradores y prints para visualizar el flujo de la recursión y detectar errores.
+Este proyecto desafiará su capacidad de pensar recursivamente y estructurar soluciones eficientes dentro de este paradigma. ¡Mucho éxito! 🚀
+
 Planificar la recursión antes de implementarla, identificando los casos base y la división del problema.
 Comenzar con una versión básica y luego agregar complejidad gradualmente.
 Probar cada función recursiva de forma aislada antes de integrarla en el sistema completo.
