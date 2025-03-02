@@ -17,21 +17,24 @@ El ecosistema se representará en una matriz NxN, donde cada celda puede contene
 - Las presas visibles son las presas que se ubican en su misma fila o misma columna. Si no tiene ninguna, se moverá un espacio de manera aleatoria en cualquier dirección ortogonal.
 
 2. Presas (ejemplo: conejos)
-Se mueven buscando alimento (plantas o hierba) en celdas adyacentes.
-Son cazadas por depredadores si comparten una celda.
-Se reproducen si hay suficiente comida disponible.
-Su movimiento es aleatorio entre las celdas vacías disponibles en su entorno inmediato.
-Plantas 
-Son consumidas por las presas.
-Se regeneran cada cierto número de ciclos en celdas vacías seleccionadas aleatoriamente.
-Reglas de la Simulación
-En cada ciclo, se debe evaluar el estado de todos los organismos en la matriz.
-La interacción entre organismos (caza, reproducción, muerte) debe resolverse de manera recursiva.
-Los movimientos deben realizarse evaluando recursivamente las opciones disponibles.
-La simulación termina cuando:
-No quedan organismos vivos.
-Se alcanza un número límite de ciclos.
-Restricciones Importantes
+- Se mueven buscando alimento (plantas o hierba) en celdas adyacentes.
+- Son cazadas por depredadores si comparten una celda.
+- Se reproducen si hay suficiente comida disponible.
+- Su movimiento es aleatorio entre las celdas vacías disponibles en su entorno inmediato.
+  
+3. Plantas 
+- Son consumidas por las presas.
+- Se regeneran cada cierto número de ciclos en celdas vacías seleccionadas aleatoriamente.
+  
+# Reglas de la Simulación
+- En cada ciclo, se debe evaluar el estado de todos los organismos en la matriz.
+- La interacción entre organismos (caza, reproducción, muerte) debe resolverse de manera recursiva.
+- Los movimientos deben realizarse evaluando recursivamente las opciones disponibles.
+- La simulación termina cuando:
+-- No quedan organismos vivos.
+-- Se alcanza un número límite de ciclos.
+  
+# Restricciones Importantes
 Toda la lógica del programa debe implementarse con recursión. No se permiten estructuras iterativas (for, while).
 La simulación debe funcionar de manera determinista, garantizando que los organismos sigan reglas claras en cada ciclo.
 El código debe estar correctamente estructurado para facilitar su lectura y corrección.
