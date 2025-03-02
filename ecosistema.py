@@ -94,6 +94,64 @@ def mover_depredador(ecosistema, fila, columna):
     return ecosistema
 
 
+def buscar_planta(ecosistema, fila, columna):
+    
+    if fila + 1 < len(ecosistema) and isinstance(ecosistema[fila + 1][columna], Planta):
+        return (fila + 1, columna)
+    if fila - 1 >= 0 and isinstance(ecosistema[fila - 1][columna], Planta):
+        return (fila - 1, columna) 
+    
+    if columna + 1 < len(ecosistema) and isinstance(ecosistema[fila][columna + 1], Planta):
+        return (fila, columna + 1)
+    if columna - 1 >= 0 and isinstance(ecosistema[fila][columna - 1], Planta):
+        return (fila, columna - 1)
+    
+    if fila + 1 < len(ecosistema) and columna + 1 < len(ecosistema) and isinstance(ecosistema[fila + 1][columna + 1], Planta):
+        return (fila + 1, columna + 1)
+    if fila + 1 < len(ecosistema) and columna - 1 >= 0 and isinstance(ecosistema[fila + 1][columna - 1], Planta):
+        return (fila + 1, columna - 1)
+    
+    if fila - 1 >= 0 and columna - 1 >= 0 and isinstance(ecosistema[fila - 1][columna - 1], Planta):
+        return (fila - 1, columna - 1)
+    if fila - 1 >= 0 and columna + 1 < len(ecosistema) and isinstance(ecosistema[fila - 1][columna + 1], Planta):
+        return (fila - 1, columna + 1)
+    
+    return (-1, -1)
+
+
+def mover_aleatorio_p(ecosistema, fila, columna):
+    n1 = random.randint(-1, 1)
+    n2 = random.randint(-1, 1)
+    n_max = len(ecosistema)
+
+    if 0 <= (fila + n1) < n_max and 0 <= (columna + n2) < n_max and not isinstance(ecosistema[fila + n1][columna + n2], Presa):
+        print(fila + n1, columna + n2)
+        if isinstance(ecosistema[fila + n1][columna + n2], Depredador):
+            ecosistema[fila][columna] = ' '
+        else:
+            ecosistema[fila + n1][columna + n2] = Presa()
+            ecosistema[fila][columna] = ' '
+    else:
+        return mover_aleatorio_p(ecosistema, fila, columna)
+
+    return ecosistema
+
+
+def mover_presa(ecosistema, fila, columna):
+    planta = buscar_planta(ecosistema, fila, columna)
+
+    if planta != (-1, -1):
+        fila_pl, columna_pl = planta
+        ecosistema[fila_pl][columna_pl] = Presa()
+        ecosistema[fila][columna] = ' '
+
+    if planta == (-1, -1):
+        ecosistema = mover_aleatorio_p(ecosistema, fila, columna)
+        print('No hay planta')
+
+    return ecosistema
+
+
 def actualizar_ecosistema(ecosistema: list[list[object]], fila: int = 0, columna: int = 0) -> tuple:
     if fila == len(ecosistema):
         return 'Fin'
@@ -108,6 +166,7 @@ def actualizar_ecosistema(ecosistema: list[list[object]], fila: int = 0, columna
 
     if isinstance(ecosistema[fila][columna], Presa):
         print(f'P{fila, columna}')
+        ecosistema = mover_presa(ecosistema, fila, columna)
         print(*ecosistema, sep="\n")
 
     return actualizar_ecosistema(ecosistema, fila, columna+1)
