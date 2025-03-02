@@ -65,11 +65,7 @@ La sustentación es individual, por lo que cada integrante debe conocer a fondo 
 - Comenzar con una versión básica y luego agregar complejidad gradualmente.
 - Probar cada función recursiva de forma aislada antes de integrarla en el sistema completo.
 - Utilizar depuradores y prints para visualizar el flujo de la recursión y detectar errores.
-Este proyecto desafiará su capacidad de pensar recursivamente y estructurar soluciones eficientes dentro de este paradigma. ¡Mucho éxito! 🚀
-
-Planificar la recursión antes de implementarla, identificando los casos base y la división del problema.
-Comenzar con una versión básica y luego agregar complejidad gradualmente.
-Probar cada función recursiva de forma aislada antes de integrarla en el sistema completo.
-Utilizar depuradores y prints para visualizar el flujo de la recursión y detectar errores.
+  
+  
 Este proyecto desafiará su capacidad de pensar recursivamente y estructurar soluciones eficientes dentro de este paradigma. ¡Mucho éxito! 🚀
 
