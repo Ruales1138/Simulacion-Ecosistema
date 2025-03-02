@@ -38,7 +38,6 @@ def generar_matriz(n: int, i: int = 0, j: int = 0, matriz: list[list[int]] = [],
 ecosistema = generar_matriz(5)
 
 print(*ecosistema, sep="\n")
-print('-----------------------------------Ciclo')
 
 
 def buscar_presa(ecosistema, fila, columna, paso=1):
@@ -68,22 +67,22 @@ def mover_depredador(ecosistema, fila, columna):
 
     if presa == (-1, -1):
         fila_o_columna = random.randint(0,1)
-        print(fila_o_columna)
+        #print(fila_o_columna)
 
         if fila_o_columna == 0:
             fila_a = random.randint(0, len(ecosistema)-1)
-            print(fila_a)
+            #print(fila_a)
             if ecosistema[fila_a][columna] == ' ':
                 ecosistema[fila_a][columna] = Depredador()
                 ecosistema[fila][columna] = ' '
 
         if fila_o_columna == 1:
             columna_a = random.randint(0, len(ecosistema)-1)
-            print(columna_a)
+            #print(columna_a)
             if ecosistema[fila][columna_a] == ' ':
                 ecosistema[fila][columna_a] = Depredador()
                 ecosistema[fila][columna] = ' '
-            
+
         print('No hay presa')
 
     return ecosistema
