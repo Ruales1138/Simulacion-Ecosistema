@@ -9,14 +9,14 @@ Los estudiantes deben trabajar en parejas para diseñar e implementar un sistema
 # Elementos del Ecosistema
 El ecosistema se representará en una matriz NxN, donde cada celda puede contener un organismo o estar vacía. Existen tres tipos de entidades principales:
 
-- Depredadores (ejemplo: lobos)
-Cazan presas en celdas adyacentes.
-Mueren si no se alimentan en un número determinado de ciclos.
-Pueden reproducirse si alcanzan cierta cantidad de energía (Opcional).
-Se mueven a una celda vacía adyacente siguiendo la regla de menor distancia a una presa visible.
-Las presas visibles son las presas que se ubican en su misma fila o misma columna. Si no tiene ninguna, se moverá un espacio de manera aleatoria en cualquier dirección ortogonal.
+1. Depredadores (ejemplo: lobos)
+- Cazan presas en celdas adyacentes.
+- Mueren si no se alimentan en un número determinado de ciclos.
+- Pueden reproducirse si alcanzan cierta cantidad de energía (Opcional).
+- Se mueven a una celda vacía adyacente siguiendo la regla de menor distancia a una presa visible.
+- Las presas visibles son las presas que se ubican en su misma fila o misma columna. Si no tiene ninguna, se moverá un espacio de manera aleatoria en cualquier dirección ortogonal.
 
-- Presas (ejemplo: conejos)
+2. Presas (ejemplo: conejos)
 Se mueven buscando alimento (plantas o hierba) en celdas adyacentes.
 Son cazadas por depredadores si comparten una celda.
 Se reproducen si hay suficiente comida disponible.
