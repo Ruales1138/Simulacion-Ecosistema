@@ -31,7 +31,10 @@ El ecosistema se representará en una matriz NxN, donde cada celda puede contene
 - La interacción entre organismos (caza, reproducción, muerte) debe resolverse de manera recursiva.
 - Los movimientos deben realizarse evaluando recursivamente las opciones disponibles.
 - La simulación termina cuando:
+
+  
 -- No quedan organismos vivos.
+
 -- Se alcanza un número límite de ciclos.
   
 # Restricciones Importantes
