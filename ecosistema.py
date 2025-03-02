@@ -5,21 +5,21 @@ class Depredador:
         self.energia: int = 5
     
     def __repr__(self):
-        return 'D '
+        return '🦁 '
     
 class Presa:
     def __init__(self):
         self.energia: int = 5
 
     def __repr__(self):
-        return 'P '
+        return '🦓 '
     
 class Planta:
     def __init__(self):
         self.energia: int = 5
 
     def __repr__(self):
-        return 'C '
+        return '🌾 '
     
 
 def generar_matriz(n: int, i: int = 0, j: int = 0, matriz: list[list[int]] = [], fila: list[int] = []) -> list[list[int]]:
@@ -31,7 +31,7 @@ def generar_matriz(n: int, i: int = 0, j: int = 0, matriz: list[list[int]] = [],
         return generar_matriz(n, i+1, 0, matriz, [])
     
     elemento = random.choice([Depredador(), Presa(), Planta()])
-    fila.append(random.choice([elemento, '']))
+    fila.append(random.choice([elemento, ' ']))
     return generar_matriz(n, i, j+1, matriz, fila)
 
 
@@ -46,11 +46,11 @@ def buscar_presa(ecosistema, fila, columna, paso=1):
         return None
     if fila + paso < len(ecosistema) and isinstance(ecosistema[fila + paso][columna], Presa):
         return (fila + paso, columna)
-    if fila - paso < len(ecosistema) and isinstance(ecosistema[fila - paso][columna], Presa):
+    if fila - paso >= 0 and isinstance(ecosistema[fila - paso][columna], Presa):
         return (fila - paso, columna) 
     if columna + paso < len(ecosistema) and isinstance(ecosistema[fila][columna + paso], Presa):
         return (fila, columna + paso)
-    if columna - paso < len(ecosistema) and isinstance(ecosistema[fila - paso][columna], Presa):
+    if columna - paso >=0 and isinstance(ecosistema[fila][columna - paso], Presa):
         return (fila, columna - paso)
     return buscar_presa(ecosistema, fila, columna, paso+1) 
 
@@ -60,7 +60,7 @@ def mover_depredador(ecosistema, fila, columna):
     if presa:
         fila_p, columna_p = presa
         ecosistema[fila_p][columna_p] = Depredador()
-        ecosistema[fila][columna] = ''
+        ecosistema[fila][columna] = ' '
     return ecosistema
 
 
