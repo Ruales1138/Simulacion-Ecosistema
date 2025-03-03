@@ -179,16 +179,21 @@ def actualizar_ecosistema(ecosistema: list[list[object]], fila: int = 0, columna
         print(*ecosistema, sep="\n")
 
     return actualizar_ecosistema(ecosistema, fila, columna+1)
-    
-print (actualizar_ecosistema(ecosistema))
 
 
-def ciclos(ecosistema: list[list[str]], idx: int = 0, limite: int = 5) -> None:
+#print(actualizar_ecosistema(ecosistema))
+#print('*************************************************')
+
+
+def ciclos(ecosistema: list[list[str]], idx: int = 0, dia: int = 1, limite: int = 5) -> None:
     if idx == limite:
         return 'Fin del ciclo'
     else:
-        print(*ecosistema, sep="\n")
-        print('-----------------------------------')
-        return ciclos(ecosistema, idx+1)
+        input("Presiona Enter: ")
+        print(f'--------------------------------------------------Dia {dia}--------------------------------------------------')
+        print(actualizar_ecosistema(ecosistema))
+        print(f'------------------------------------------------Fin Dia {dia}------------------------------------------------')
+        return ciclos(ecosistema, idx+1, dia+1)
 
-# print(ciclos(ecosistema))
+print(ciclos(ecosistema))
+
