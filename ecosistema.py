@@ -1,22 +1,22 @@
 import random
 
 class Depredador:
-    def __init__(self):
-        self.energia: int = 5
+    def __init__(self, vida: int = 5):
+        self.vida: int = vida
     
     def __repr__(self):
         return '🦁 '
     
 class Presa:
-    def __init__(self):
-        self.energia: int = 5
+    def __init__(self, vida: int = 5):
+        self.vida: int = vida
 
     def __repr__(self):
         return '🦓 '
     
 class Planta:
     def __init__(self):
-        self.energia: int = 5
+        self.vida: int = 5
 
     def __repr__(self):
         return '🌾 '
@@ -59,20 +59,23 @@ def buscar_presa(ecosistema, fila, columna, paso=1):
 
 def mover_aleatorio_d(ecosistema, fila, columna):
     fila_o_columna = random.randint(0,1)
+    vida = ecosistema[fila][columna].vida
 
     if fila_o_columna == 0:
         fila_a = random.randint(0, len(ecosistema)-1)
         if ecosistema[fila_a][columna] == ' ':
-            ecosistema[fila_a][columna] = Depredador()
+            ecosistema[fila_a][columna] = Depredador(vida)
             ecosistema[fila][columna] = ' '
+            print(f'Nueva posicion:  D{fila_a, columna} Vida: {ecosistema[fila_a][columna].vida}')
         else:
             return mover_aleatorio_d(ecosistema, fila, columna)
 
     if fila_o_columna == 1:
         columna_a = random.randint(0, len(ecosistema)-1)
         if ecosistema[fila][columna_a] == ' ':
-            ecosistema[fila][columna_a] = Depredador()
+            ecosistema[fila][columna_a] = Depredador(vida)
             ecosistema[fila][columna] = ' '
+            print(f'Nueva posicion:  D{fila, columna_a} Vida: {ecosistema[fila][columna_a].vida}')
         else:
             return mover_aleatorio_d(ecosistema, fila, columna)
 
@@ -81,15 +84,16 @@ def mover_aleatorio_d(ecosistema, fila, columna):
 
 def mover_depredador(ecosistema, fila, columna):
     presa = buscar_presa(ecosistema, fila, columna)
+    vida = ecosistema[fila][columna].vida
 
     if presa != (-1, -1):
         fila_p, columna_p = presa
-        ecosistema[fila_p][columna_p] = Depredador()
+        ecosistema[fila_p][columna_p] = Depredador(vida + 5)
         ecosistema[fila][columna] = ' '
+        print(f'Nueva posicion:  D{fila_p, columna_p} Vida: {ecosistema[fila_p][columna_p].vida}')
 
     if presa == (-1, -1):
         ecosistema = mover_aleatorio_d(ecosistema, fila, columna)
-        print('No hay presa')
 
     return ecosistema
 
@@ -123,14 +127,18 @@ def mover_aleatorio_p(ecosistema, fila, columna):
     n1 = random.randint(-1, 1)
     n2 = random.randint(-1, 1)
     n_max = len(ecosistema)
+    vida = ecosistema[fila][columna].vida
 
     if 0 <= (fila + n1) < n_max and 0 <= (columna + n2) < n_max and not isinstance(ecosistema[fila + n1][columna + n2], Presa):
-        print(fila + n1, columna + n2)
         if isinstance(ecosistema[fila + n1][columna + n2], Depredador):
+            vida = ecosistema[fila  + n1][columna + n2].vida
+            ecosistema[fila + n1][columna + n2] = Depredador(vida + 5)
             ecosistema[fila][columna] = ' '
+            print(f'Nueva posicion:  P{fila + n1, columna + n2} Vida: {0}')
         else:
-            ecosistema[fila + n1][columna + n2] = Presa()
+            ecosistema[fila + n1][columna + n2] = Presa(vida)
             ecosistema[fila][columna] = ' '
+            print(f'Nueva posicion:  P{fila + n1, columna + n2} Vida: {ecosistema[fila + n1][columna + n2].vida}')
     else:
         return mover_aleatorio_p(ecosistema, fila, columna)
 
@@ -139,15 +147,16 @@ def mover_aleatorio_p(ecosistema, fila, columna):
 
 def mover_presa(ecosistema, fila, columna):
     planta = buscar_planta(ecosistema, fila, columna)
+    vida = ecosistema[fila][columna].vida
 
     if planta != (-1, -1):
         fila_pl, columna_pl = planta
-        ecosistema[fila_pl][columna_pl] = Presa()
+        ecosistema[fila_pl][columna_pl] = Presa(vida + 5)
         ecosistema[fila][columna] = ' '
+        print(f'Nueva posicion:  P{fila_pl, columna_pl} Vida: {ecosistema[fila_pl][columna_pl].vida}')
 
     if planta == (-1, -1):
         ecosistema = mover_aleatorio_p(ecosistema, fila, columna)
-        print('No hay planta')
 
     return ecosistema
 
@@ -160,12 +169,12 @@ def actualizar_ecosistema(ecosistema: list[list[object]], fila: int = 0, columna
         return actualizar_ecosistema(ecosistema, fila+1, 0)
     
     if isinstance(ecosistema[fila][columna], Depredador):
-        print(f'D{fila, columna}')
+        print(f'Posicion actual: D{fila, columna} Vida: {ecosistema[fila][columna].vida}')
         ecosistema = mover_depredador(ecosistema, fila, columna)
         print(*ecosistema, sep="\n")
 
     if isinstance(ecosistema[fila][columna], Presa):
-        print(f'P{fila, columna}')
+        print(f'Posicion actual: P{fila, columna} Vida: {ecosistema[fila][columna].vida}')
         ecosistema = mover_presa(ecosistema, fila, columna)
         print(*ecosistema, sep="\n")
 
