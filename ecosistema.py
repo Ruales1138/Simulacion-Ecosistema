@@ -181,8 +181,33 @@ def actualizar_ecosistema(ecosistema: list[list[object]], fila: int = 0, columna
     return actualizar_ecosistema(ecosistema, fila, columna+1)
 
 
-#print(actualizar_ecosistema(ecosistema))
-#print('*************************************************')
+def cambio_de_dia(ecosistema, fila = 0, columna = 0):
+    if fila == len(ecosistema):
+        print(*ecosistema, sep="\n")
+        return ecosistema
+
+    if columna == len(ecosistema):
+        return cambio_de_dia(ecosistema, fila+1, 0)
+
+    if isinstance(ecosistema[fila][columna], Depredador):
+        vida = ecosistema[fila][columna].vida
+        print(vida)
+        if vida - 5 == 0:
+            ecosistema[fila][columna] = ' '
+        else:
+            ecosistema[fila][columna] = Depredador(vida - 5)
+            print(ecosistema[fila][columna].vida)
+
+    if isinstance(ecosistema[fila][columna], Presa):
+        vida = ecosistema[fila][columna].vida
+        print(vida)
+        if vida - 5 == 0:
+            ecosistema[fila][columna] = ' '
+        else:
+            ecosistema[fila][columna] = Presa(vida - 5)
+            print(ecosistema[fila][columna].vida)
+
+    return cambio_de_dia(ecosistema, fila, columna+1)
 
 
 def ciclos(ecosistema: list[list[str]], idx: int = 0, dia: int = 1, limite: int = 5) -> None:
@@ -191,9 +216,14 @@ def ciclos(ecosistema: list[list[str]], idx: int = 0, dia: int = 1, limite: int 
     else:
         input("Presiona Enter: ")
         print(f'--------------------------------------------------Dia {dia}--------------------------------------------------')
-        print(actualizar_ecosistema(ecosistema))
+        if dia == 1:
+            print(actualizar_ecosistema(ecosistema))
+        else:
+            ecosistema = cambio_de_dia(ecosistema)
+            print(actualizar_ecosistema(ecosistema))
         print(f'------------------------------------------------Fin Dia {dia}------------------------------------------------')
         return ciclos(ecosistema, idx+1, dia+1)
+
 
 print(ciclos(ecosistema))
 
