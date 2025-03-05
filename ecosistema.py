@@ -22,17 +22,17 @@ class Planta:
         return '🌾 '
     
 
-def generar_matriz(n: int, i: int = 0, j: int = 0, matriz: list[list[int]] = [], fila: list[int] = []) -> list[list[int]]:
-    if i == n:
+def generar_matriz(n: int, fila: int = 0, columna: int = 0, matriz: list[list[int]] = [], fila_completa: list[int] = []) -> list[list[int]]:
+    if fila == n:
         return matriz
     
-    if j == n:
-        matriz.append(fila)
-        return generar_matriz(n, i+1, 0, matriz, [])
+    if columna == n:
+        matriz.append(fila_completa)
+        return generar_matriz(n, fila+1, 0, matriz, [])
     
     elemento = random.choice([Depredador(), Presa(), Planta()])
-    fila.append(random.choice([elemento, ' ']))
-    return generar_matriz(n, i, j+1, matriz, fila)
+    fila_completa.append(random.choice([elemento, ' ']))
+    return generar_matriz(n, fila, columna+1, matriz, fila_completa)
 
 
 ecosistema = generar_matriz(5)
