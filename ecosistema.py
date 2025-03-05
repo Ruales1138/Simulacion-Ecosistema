@@ -182,6 +182,7 @@ def actualizar_ecosistema(ecosistema: list[list[object]], fila: int = 0, columna
 
 
 def cambio_de_dia(ecosistema, fila = 0, columna = 0):
+
     if fila == len(ecosistema):
         print(*ecosistema, sep="\n")
         return ecosistema
