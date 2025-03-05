@@ -185,6 +185,7 @@ def cambio_de_dia(ecosistema, fila = 0, columna = 0):
 
     if fila == len(ecosistema):
         print(*ecosistema, sep="\n")
+        print(fila)
         return ecosistema
 
     if columna == len(ecosistema):
@@ -192,21 +193,17 @@ def cambio_de_dia(ecosistema, fila = 0, columna = 0):
 
     if isinstance(ecosistema[fila][columna], Depredador):
         vida = ecosistema[fila][columna].vida
-        print(vida)
         if vida - 5 == 0:
             ecosistema[fila][columna] = ' '
         else:
             ecosistema[fila][columna] = Depredador(vida - 5)
-            print(ecosistema[fila][columna].vida)
 
     if isinstance(ecosistema[fila][columna], Presa):
         vida = ecosistema[fila][columna].vida
-        print(vida)
         if vida - 5 == 0:
             ecosistema[fila][columna] = ' '
         else:
             ecosistema[fila][columna] = Presa(vida - 5)
-            print(ecosistema[fila][columna].vida)
 
     return cambio_de_dia(ecosistema, fila, columna+1)
 
@@ -227,4 +224,3 @@ def ciclos(ecosistema: list[list[str]], idx: int = 0, dia: int = 1, limite: int 
 
 
 print(ciclos(ecosistema))
-
