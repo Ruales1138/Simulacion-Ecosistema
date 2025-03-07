@@ -82,18 +82,68 @@ def mover_aleatorio_d(ecosistema, fila, columna):
     return ecosistema
 
 
+def buscar_pareja_depredador(ecosistema, fila, columna, paso = 1):
+    if paso >= len(ecosistema):
+        return (-1, -1)
+    
+    if fila + paso < len(ecosistema) and isinstance(ecosistema[fila + paso][columna], Depredador):
+        return (fila + paso, columna)
+    if fila - paso >= 0 and isinstance(ecosistema[fila - paso][columna], Depredador):
+        return (fila - paso, columna) 
+    
+    if columna + paso < len(ecosistema) and isinstance(ecosistema[fila][columna + paso], Depredador):
+        return (fila, columna + paso)
+    if columna - paso >=0 and isinstance(ecosistema[fila][columna - paso], Depredador):
+        return (fila, columna - paso)
+    
+    return buscar_pareja_depredador(ecosistema, fila, columna, paso+1) 
+
+
+def reproducir_depredador(ecosistema, fila, columna, vida = 5):
+    n1 = random.randint(-1, 1)
+    n2 = random.randint(-1, 1)
+    n_max = len(ecosistema)
+
+    if 0 <= (fila + n1) < n_max and 0 <= (columna + n2) < n_max and not isinstance(ecosistema[fila + n1][columna + n2], Depredador):
+        if isinstance(ecosistema[fila + n1][columna + n2], Presa):
+            ecosistema[fila + n1][columna + n2] = Depredador(vida + 5)
+            print(f'Nueva posicion:  D{fila + n1, columna + n2} Vida: {ecosistema[fila + n1][columna + n2].vida}')
+        else:
+            ecosistema[fila + n1][columna + n2] = Depredador(vida)
+            print(f'Nueva posicion:  D{fila + n1, columna + n2} Vida: {ecosistema[fila + n1][columna + n2].vida}')
+    else:
+        return reproducir_depredador(ecosistema, fila, columna)
+
+    return ecosistema
+
+
 def mover_depredador(ecosistema, fila, columna):
-    presa = buscar_presa(ecosistema, fila, columna)
     vida = ecosistema[fila][columna].vida
 
-    if presa != (-1, -1):
-        fila_p, columna_p = presa
-        ecosistema[fila_p][columna_p] = Depredador(vida + 5)
-        ecosistema[fila][columna] = ' '
-        print(f'Nueva posicion:  D{fila_p, columna_p} Vida: {ecosistema[fila_p][columna_p].vida}')
+    if vida < 10:
+        presa = buscar_presa(ecosistema, fila, columna)
 
-    if presa == (-1, -1):
-        ecosistema = mover_aleatorio_d(ecosistema, fila, columna)
+        if presa != (-1, -1):
+            fila_p, columna_p = presa
+            ecosistema[fila_p][columna_p] = Depredador(vida + 5)
+            ecosistema[fila][columna] = ' '
+            print(f'Nueva posicion:  D{fila_p, columna_p} Vida: {ecosistema[fila_p][columna_p].vida}')
+
+        if presa == (-1, -1):
+            ecosistema = mover_aleatorio_d(ecosistema, fila, columna)
+
+    else:
+        otro_depredador = buscar_pareja_depredador(ecosistema, fila, columna)
+
+        if otro_depredador != (-1, -1):
+            fila_d, columna_d = otro_depredador
+            print(f'Pareja:  D{fila_d, columna_d} Vida: {ecosistema[fila_d][columna_d].vida}')
+            ecosistema = reproducir_depredador(ecosistema, fila_d, columna_d, vida)
+            ecosistema = reproducir_depredador(ecosistema, fila_d, columna_d)
+            ecosistema[fila][columna] = ' '
+            
+        if otro_depredador == (-1, -1):
+            ecosistema = mover_aleatorio_d(ecosistema, fila, columna)
 
     return ecosistema
 
@@ -219,7 +269,6 @@ def ciclos(ecosistema: list[list[str]], idx: int = 0, dia: int = 1, contador = 1
             print(actualizar_ecosistema(ecosistema))
         else:
             ecosistema, contador = cambio_de_dia(ecosistema)
-            print(contador)
             print(actualizar_ecosistema(ecosistema))
         print(f'------------------------------------------------Fin Dia {dia}------------------------------------------------')
         return ciclos(ecosistema, idx+1, dia+1, contador)
