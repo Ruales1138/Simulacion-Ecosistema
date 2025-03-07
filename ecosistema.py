@@ -120,7 +120,7 @@ def reproducir_depredador(ecosistema, fila, columna, vida = 5):
 def mover_depredador(ecosistema, fila, columna):
     vida = ecosistema[fila][columna].vida
 
-    if vida < 10:
+    if vida < 15:
         presa = buscar_presa(ecosistema, fila, columna)
 
         if presa != (-1, -1):
